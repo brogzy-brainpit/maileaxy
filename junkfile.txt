@@ -1,0 +1,76 @@
+app.get("/api/v1/fonts",(req,res)=>{
+    osFonts.getAll().then(fonts=>{
+        console.log(fonts);
+        // fonts.forEach(font=>{
+            
+            res.status(200).json({msg:fonts})
+      
+        // })
+      })
+})
+app.get("/api/v1/check",(req,res)=>{
+    const options={
+        text:"make something",
+        fontNameOrPath:path.join(__dirname, 'Roboto',),
+        fontColor:"#0bbfcb",
+        backgroundColor:"transparent",
+        fontSize:120
+
+    }
+    customFonts.png3x(options).then((response)=>{
+        customFonts.getFontPathByName()
+customFonts.getAvailableFontNames().then((d)=>{
+    console.log(d);
+    // console.log(response);
+   return res.status(200).json({msg:response,d})
+})
+    }).catch((err)=>{
+        console.log(err);
+       return res.status(400).json({msg:err})
+
+    })
+})
+app.post("/api/v1/sendTestMail",(req,res)=>{
+ const{ht,subject,mailList}=req.body
+const to= mailList.split(",")
+console.log(to);
+
+    const mail_config={
+        // khalifah="mhhammadrufai49@gmail.com"
+        from: ` mome <dangabarin2020@gmail.com>`, // sender address
+        // to: "dangabarin2020@gmail.com,services.1017mail@contractor.net,dangabarin2020@outlook.com", // list of receivers
+        to, // list of receivers
+        // bcc: "Send2usi@gmail.com,aiahmaddeen@gmail.com,dangabarin2020@gmail.com,dangabarin2021@gmail.com", // list of receivers
+        // Bcc: "dangabarin2020@gmail.com,dangabarin2021@gmail.com, baz@example.com", // list of receivers
+        subject, // Subject line
+        replyTo:"dangabarin2020@gmail.com",
+         text: `Hello its   from 1017mail`, // plain text body
+        html:req.body.ht ,// html body,
+    
+
+        
+      }
+
+      writeFileSync("./numb.html",ht,"utf8")
+    transport.sendMail(mail_config,function(err,info){
+        if(err){
+            // console.log(err);
+            res.status(404).json({msg:err.message})
+        }else{
+        //   callback()
+        //   console.log("sent to "+ to);
+          res.status(200).json({msg:info})
+        }
+      })
+
+    
+})
+var transport =nodemailer.createTransport({
+    service:"gmail",
+    port:587,
+    auth:{
+        user:'dangabarin2020@gmail.com',
+        pass:"ohsdkshebmmfrzsb"
+    },
+   
+});
